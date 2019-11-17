@@ -9,6 +9,7 @@ public class HelloController {
 
     @GetMapping("/30s-process")
     public String longProcessAPI(){
+        System.out.println("enter this long process function");
         try {
             Thread.sleep(30000);
         } catch (InterruptedException e) {

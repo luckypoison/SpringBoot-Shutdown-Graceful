@@ -1,6 +1,7 @@
 package com.demo.timeout.tomcat;
 
 import org.apache.catalina.connector.Connector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -13,8 +14,12 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationListener<ContextClosedEvent> {
     private volatile Connector connector;
-    private final int waitTime = 60;
+    private int waitTime;
 
+    @Value("${STOP_WAIT_TIMEOUT}")
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
     @Override
     public void customize(Connector connector) {
         this.connector = connector;
